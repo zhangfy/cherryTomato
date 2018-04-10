@@ -7,7 +7,7 @@ super fancy chrome extension to clock your daily life.
 ## 构建
 
 ```sh
->> npm run build
+>> yarn && yarn build
 ```
 
 将会生成一个 __dist__ 目录和一个压缩(zip)包
