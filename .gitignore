@@ -1,5 +1,6 @@
 .DS_Store
 extension.zip
+package-lock.json
 
 dist/
 node_modules/
