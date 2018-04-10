@@ -11,7 +11,7 @@ function constructOptions(kButtonColors) {
                 console.log('color is %c' + item, 'color:'+item);
                 // chrome.browserAction.setBadgeBackgroundColor({color: item});
                 // chrome.browserAction.setBadgeText({text: '#'});
-                showNotification('color is set to ' + item)
+                // showNotification('color is set to ' + item)
             });
         });
         page.appendChild(button);

@@ -57,13 +57,17 @@ function stopBgm() {
 function startTick(minutes) {
     drawBorder()
 
-    getColor((color) => {
-        intervalId = window.setInterval((total) => {
-            count += 1
+    intervalId = window.setInterval((total) => {
+        count += 1
+        if (count > total) {
+            stopAlarm()
+            playMusic('../sounds/alarm.ogg')
+            return
+        }
+        getColor((color) => {
             drawCircle(count / total, color)
-            // playMusic('../sounds/ticking.ogg')
-        }, 1000, minutes * 60)
-    })
+        })
+    }, 1000, minutes * 60)
 
     playBgm()
 }

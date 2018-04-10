@@ -1,25 +1,6 @@
 'use strict';
 
-let changeColor = document.getElementById('changeColor');
-// let canvasContext = canvas.getContext('2d');
-
-chrome.storage.sync.get('color', function(data) {
-  changeColor.style.backgroundColor = data.color;
-  changeColor.setAttribute('value', data.color);
-});
-
-changeColor.onclick = function(element) {
-  let color = element.target.value;
-  chrome.tabs.executeScript(
-    null,
-    {file: 'js/content_script.js'}
-    // {code: 'document.body.style.backgroundColor = "' + color + '";'}
-  );
-};
-
 chrome.storage.sync.get('minutes', function(data) {
-  // changeColor.style.backgroundColor = data.color;
-  // changeColor.setAttribute('value', data.color);
   let settingArea = document.getElementById('setting')
   settingArea.innerHTML = `当前成熟周期: <b>${data.minutes}</b> 分钟`
 });
