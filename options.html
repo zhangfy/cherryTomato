@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                background-color: #efefef;
+            }
+            #buttonDiv button {
+                height: 30px;
+                width: 30px;
+                outline: none;
+                margin: 10px;
+                border: 1px solid black;
+            }
+
+            #saveBtn {
+                padding: 5px 10px;
+                border: 1px solid #999;
+                margin-top: 10px;
+                color: #555;
+            }
+
+            #saveBtn:hover {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <p>时钟饼状颜色</p>
+        <div id="buttonDiv"></div>
+
+        <div>
+            <p>番茄成熟周期</p>
+            <select id="selectTick">
+                <option value="1" selected>1 分钟</option>
+                <option value="5">5 分钟</option>
+                <option value="15">15 分钟</option>
+            </select>
+        </div>
+
+        <div>
+            <p>滴答声</p>
+            <input type="checkbox" name="enableTick" value=true />
+        </div>
+
+        <div>
+            <p>背景音</p>
+            <select id="selectBgm">
+                <option value="cafe.ogg">咖啡馆</option>
+                <option value="rain_with_thunder.glue.ogg">雨天雷声</option>
+                <option value="sounds_of_frogs.glue.ogg">青蛙声</option>
+            </select>
+        </div>
+
+        <button id="saveBtn">Save</button>
+
+        <script src="js/options.js"></script>
+    </body>
+</html>
