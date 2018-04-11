@@ -10,7 +10,7 @@ let alarmClock = {
     chrome.storage.sync.get('minutes', (resp) => {
       chrome.alarms.create('myAlarm', {delayInMinutes: resp.minutes})
       chrome.runtime.sendMessage({query: 'tick', minutes: resp.minutes})
-      chrome.browserAction.setBadgeText({text: resp.minutes + 'm'})
+      // chrome.browserAction.setBadgeText({text: resp.minutes + 'm'})
       window.close();
     })
   },
