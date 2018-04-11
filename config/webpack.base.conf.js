@@ -2,32 +2,16 @@ const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ZipPlugin = require('zip-webpack-plugin')
+
+const { rootDir, resolve, htmlPage } = require('./tools')
 
 const isProduction = process.env.NODE_ENV == 'production'
-const rootDir = path.resolve(__dirname, '..')
-
-let resolve = (dir) => path.join(rootDir, 'src', dir)
-
-let htmlPage = (filename, chunks, template) => new HtmlWebpackPlugin({
-    // hash: true,
-    cache: true,
-    inject: true,
-    filename: './pages/' + filename + '.html',
-    template: template || resolve('./pages/' + filename + '.html'),
-    chunks: chunks,
-    minify: {
-        removeAttributeQuotes: true,
-        removeScriptTypeAttributes: true,
-    }
-})
 
 const config = {
     mode: isProduction ? 'production' : 'development',
     entry: {
         background: resolve('js/background.js'),
-        popup: resolve('js/popup.js'),
+        popup: path.join(rootDir, 'src', 'js/popup'),
         options: resolve('js/options.js'),
     },
     output: {
@@ -38,11 +22,22 @@ const config = {
     module: {
         rules: [
             {
+                test: /\.vue$/,
+                use: 'vue-loader'
+            },
+            {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: 'babel-loader'
             },
         ]
+    },
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+            '@': resolve('src')
+        }
     },
     optimization: {
         splitChunks: {
@@ -54,7 +49,7 @@ const config = {
         new CleanWebpackPlugin(['*'], {root: path.join(rootDir, 'dist')}),
 
         htmlPage('background', ['background', 'runtime~background']),
-        htmlPage('popup', ['popup', 'runtime~popup']),
+        htmlPage('popup', ['popup', 'runtime~popup', 'vendors~popup']),
         htmlPage('options', ['options', 'runtime~options']),
 
         new webpack.HashedModuleIdsPlugin(),
@@ -64,11 +59,6 @@ const config = {
             {from: resolve('images'), to: path.join(rootDir, 'dist/images')},
             {from: resolve('manifest.json')},
         ]),
-
-        new ZipPlugin({
-            path: '..',
-            filename: 'extension.zip'
-        }),
     ]
 }
 
