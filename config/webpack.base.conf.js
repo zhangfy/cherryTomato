@@ -86,12 +86,13 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(['*'], {root: path.join(rootDir, 'dist')}),
+        new webpack.HashedModuleIdsPlugin(),
 
         htmlPage('background', ['background', 'runtime~background']),
         htmlPage('popup', ['popup', 'runtime~popup', 'vendors~popup']),
         htmlPage('options', ['options', 'runtime~options']),
 
-        new webpack.HashedModuleIdsPlugin(),
+        new ExtractTextPlugin({filename: 'css/[name].[hash:7].css'}),
 
         new CopyWebpackPlugin([
             {from: resolve('sounds'), to: path.join(rootDir, 'dist/sounds')},
