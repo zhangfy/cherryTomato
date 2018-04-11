@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const { rootDir, resolve, htmlPage } = require('./tools')
 
@@ -23,13 +24,51 @@ const config = {
         rules: [
             {
                 test: /\.vue$/,
-                use: 'vue-loader'
+                use: [{
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {
+                            'scss': 'vue-style-loader!css-loader!sass-loader',
+                            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
+                        }
+                    }
+                }]
             },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: 'babel-loader'
             },
+            // {
+            //     test: /\.css$/,
+            //     use: [
+            //         {loader: 'style-loader'},
+            //         {loader: 'css-loader'},
+            //     ],
+            // },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                })
+            },
+            {
+                test: /\.(scss|sass)$/,
+                use: [
+                    {loader: 'style-loader', options: {indentedSyntax: true}},
+                ],
+            },
+            {
+                test: /\.(woff2?|ttf|otf)(\?.*)?$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'fonts/[name].[hash:7].[ext]',
+                    },
+                }],
+            }
         ]
     },
     resolve: {
@@ -41,7 +80,7 @@ const config = {
     },
     optimization: {
         splitChunks: {
-            chunks: 'all'
+            chunks: 'all',
         },
         runtimeChunk: true
     },

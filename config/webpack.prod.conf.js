@@ -1,14 +1,17 @@
 const merge = require('webpack-merge')
-const ZipPlugin = require('zip-webpack-plugin')
+// const ZipPlugin = require('zip-webpack-plugin')
+const ExtractWebpackPlugin = require('extract-text-webpack-plugin')
 
 const baseConfig = require('./webpack.base.conf')
 
 const config = merge(baseConfig, {
     plugins: [
-        new ZipPlugin({
-            path: '..',
-            filename: 'extension.zip'
-        }),
+        new ExtractWebpackPlugin({filename: 'css/[name].[hash].css'}),
+
+        // new ZipPlugin({
+        //     path: '..',
+        //     filename: 'extension.zip'
+        // }),
     ]
 })
 
