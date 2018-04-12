@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <section>
     <div>
       <el-row>
@@ -45,39 +46,23 @@ section {
 
 </style>
 
+=======
+  <div>
+      <h1>Root page</h1>
+      <p>
+          <router-link :to="{name: 'home'}">Home</router-link>
+          <router-link :to="{name: 'setting'}">Setting</router-link>
+      </p>
+
+      <router-view></router-view>
+  </div>
+</template>
+
+>>>>>>> 36c7b6b62e87238749090026ec064d98e3aa7ecc
 <script>
 export default {
-  data() {
-    return {
-      currentMinutes: 1,
-    }
-  },
-
-  methods: {
-    init () {
-      return chrome.storage.sync.get('minutes', data => this.currentMinutes = data.minutes)
-    },
-
-    onHandler: function () {
-      chrome.storage.sync.get('minutes', (resp) => {
-        chrome.alarms.create('myAlarm', {delayInMinutes: resp.minutes})
-        chrome.runtime.sendMessage({query: 'tick', minutes: resp.minutes})
-        // chrome.browserAction.setBadgeText({text: resp.minutes + 'm'})
-        window.close();
-      })
-    },
-
-    offHandler: function () {
-      chrome.runtime.sendMessage({query: 'tick_stop'})
-      window.close();
-    },
-
-  },
-
-  mounted() {
-    this.init()
-    console.log('vue is mounted!')
+  data () {
+      return {}
   }
-
 }
 </script>
