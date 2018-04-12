@@ -2,7 +2,7 @@ let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 let defaultColor = '#3aa757'
 let count = 0
-let defaultMinutes = 15
+let defaultMinutes = 1
 const PI = Math.PI
 
 function drawBorder() {
@@ -59,18 +59,26 @@ function startTick(minutes) {
 
     intervalId = window.setInterval((total) => {
         count += 1
-        if (count > total) {
+
+        chrome.runtime.sendMessage({query: 'tick_left', minutes: total-count})
+
+        if (count >= total) {
             stopAlarm()
             playMusic('../sounds/alarm.ogg')
             return
         }
+
+        if ((total - count) <= 10) {
+            playMusic('../sounds/quick_ticking.ogg')
+        }
+
         getColor((color) => {
-            chrome.runtime.sendMessage({query: 'tick_left', minutes: total-count})
+            // chrome.runtime.sendMessage({query: 'tick_left', minutes: total-count})
             drawCircle(count / total, color)
         })
     }, 1000, minutes * 60)
 
-    playBgm()
+    // playBgm()
 }
 
 function playMusic(src) {
@@ -80,6 +88,9 @@ function playMusic(src) {
 
 function stopAlarm() {
     stopBgm()
+
+    // reset clock
+    chrome.runtime.sendMessage({query: 'tick_left', minutes: 0})
 
     window.clearInterval(intervalId);
     chrome.browserAction.setBadgeText({text:''})

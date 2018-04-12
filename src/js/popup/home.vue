@@ -102,7 +102,17 @@ export default {
 
     formatSeconds (t) {
       let sec = t % 60
-      return (t-sec)/60 + ':' + sec
+      let minutes = (t - sec) / 60
+
+      if (minutes < 10) {
+        minutes = (minutes == 0 && sec == 0) ? '--' : '0' + minutes
+      }
+
+      if (sec < 10) {
+        sec = (sec == 0) ? '--' : '0' + sec
+      }
+
+      return minutes + ':' + sec
     },
 
     onMessage () {
@@ -111,6 +121,7 @@ export default {
           switch (req.query) {
               case 'tick_left':
                   self.timeLeft = self.formatSeconds(req.minutes)
+                  console.log('timeLeft:', self.timeLeft)
                   break
           }
         }
@@ -132,13 +143,13 @@ export default {
         chrome.alarms.create('myAlarm', {delayInMinutes: resp.minutes})
         chrome.runtime.sendMessage({query: 'tick', minutes: resp.minutes})
         // chrome.browserAction.setBadgeText({text: resp.minutes + 'm'})
-        window.close();
+        // window.close();
       })
     },
 
     offHandler () {
       chrome.runtime.sendMessage({query: 'tick_stop'})
-      window.close();
+      // window.close();
     },
 
   },
