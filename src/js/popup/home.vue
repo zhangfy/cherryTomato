@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div>
       <el-row id="header" class="bar">
         <el-col :span="3" :offset="21">
           <p id="setting">{{ currentMinutes }} 分钟</p>
@@ -17,30 +17,23 @@
       </el-row>
 
       <el-row id="footer">
-        <el-col :span="2" :offset="19">
-          <!-- <el-button icon="el-icon-setting" size="small" @click="openTab('/pages/options.html')" circle>
-          </el-button> -->
-          <!-- <i class="el-icon-setting" id="settingBtn" @click="openTab('/pages/options.html')"></i> -->
-          <div>
-            <el-button plain icon="el-icon-setting" size="small">设置</el-button>
-            <!-- <router-link :to="'/setting'">设置</router-link> -->
-          </div>
+        <!-- options.html -->
+        <el-col :span="2" :offset="1">
+          <el-button plain icon="el-icon-setting" size="small" @click="openTab('/pages/options.html')">选项</el-button>
+        </el-col>
+
+        <!-- /setting -->
+        <el-col :span="2" :offset="16">
+            <router-link to="/setting">
+              <el-button plain icon="el-icon-more" size="small">设置</el-button>
+            </router-link>
         </el-col>
       </el-row>
-  </section>
+  </div>
 </template>
 
 <style>
-body {
-  margin: 0;
-}
-
-html {
-  width: 400px;
-}
-
-section {
-  width: 100%;
+#body {
   height: 100%;
 }
 
@@ -57,10 +50,9 @@ section {
 #footer {
   border-top: 1px solid #ddd;
   padding: 8px 0;
-  /* position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0; */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 #settingBtn {

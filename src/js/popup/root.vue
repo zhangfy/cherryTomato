@@ -1,58 +1,39 @@
 <template>
-  <section>
-    <div>
-      <el-row>
-          <el-col :span="24">
-            <div class="grid-content bg-purple-dark">
-              <!-- <div> -->
-                <!-- <span class="dashboard-clock">24:59</span> -->
-              <!-- </div> -->
-            
-
-              <el-row>
-                <el-button type="success" icon="el-icon-play" @click="onHandler">开始</el-button>
-                <el-button type="danger" icon="el-icon-stop" @click="offHandler">终止</el-button>
-              </el-row>
-            </div>
-          </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="24">
-          <div class="grid-content bg-purple-dark">
-            <a href="/pages/options.html" target="_blank" role="button">选项</a>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-
-  <div>
-      <h1>Root page</h1>
-      <p>
-          <router-link :to="{name: 'home'}">Home</router-link>
-          <router-link :to="{name: 'setting'}">Setting</router-link>
-      </p>
-
-      <router-view></router-view>
-  </div>
-  </section>
+      <div id="pages">
+        <router-view></router-view>
+      </div>
 </template>
 
 <style>
-section {
+body {
+  margin: 0;
+}
+
+html {
   width: 400px;
+  height: 300px;
 }
 
-.dashboard-clock {
-  font-size: 20px
+body {
+  width: 100%;
+  height: 100%;
 }
 
-
+#pages {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 </style>
 
 <script>
 export default {
   data () {
       return {}
+  },
+
+  mounted() {
+      this.$router.push('/home')
   }
 }
 </script>
