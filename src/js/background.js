@@ -2,7 +2,7 @@ let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 let defaultColor = '#3aa757'
 let count = 0
-let defaultMinutes = 1
+let defaultMinutes = 0.5
 const PI = Math.PI
 
 function drawBorder() {

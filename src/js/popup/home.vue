@@ -9,15 +9,15 @@
       <div id="body">
       <el-row>
         <el-col :span="8" :offset="8">
-          <p style="font-size: 52px;">{{ timeLeft }}</p>
+          <p style="font-size: 52px; text-align: center; margin-bottom: 20px;">{{ timeLeft }}</p>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="4" :offset="8" style="text-align: center;">
-          <el-button type="success" icon="el-icon-caret-right" size="small" @click="onHandler" circle></el-button>
+        <el-col v-if="timeLeft === '--:--'" :span="4" :offset="10" style="text-align: center;">
+          <el-button type="success" icon="el-icon-caret-right" size="medium" @click="onHandler" circle></el-button>
         </el-col>
-        <el-col :span="4" style="text-align: center;">
-          <el-button type="danger" icon="el-icon-circle-close" size="small" @click="offHandler" circle></el-button>
+        <el-col v-else :span="4" :offset="10" style="text-align: center;">
+          <el-button type="danger" icon="el-icon-circle-close" size="medium" @click="offHandler" circle></el-button>
         </el-col>
       </el-row>
       </div>
@@ -104,12 +104,16 @@ export default {
       let sec = t % 60
       let minutes = (t - sec) / 60
 
+      if (sec == 0 && minutes == 0) {
+        return '--:--'
+      } 
+
       if (minutes < 10) {
-        minutes = (minutes == 0 && sec == 0) ? '--' : '0' + minutes
+        minutes = '0' + minutes
       }
 
       if (sec < 10) {
-        sec = (sec == 0) ? '--' : '0' + sec
+        sec = '0' + sec
       }
 
       return minutes + ':' + sec
@@ -139,17 +143,21 @@ export default {
     },
 
     onHandler () {
+      let self = this
+
       chrome.storage.sync.get('minutes', (resp) => {
         chrome.alarms.create('myAlarm', {delayInMinutes: resp.minutes})
         chrome.runtime.sendMessage({query: 'tick', minutes: resp.minutes})
         // chrome.browserAction.setBadgeText({text: resp.minutes + 'm'})
         // window.close();
+        self.timeLeft = self.formatSeconds(resp.minutes * 60)
       })
     },
 
     offHandler () {
       chrome.runtime.sendMessage({query: 'tick_stop'})
       // window.close();
+      this.timeLeft = this.formatSeconds(0)
     },
 
   },
