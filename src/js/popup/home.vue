@@ -1,8 +1,8 @@
 <template>
   <div>
       <el-row id="header" class="bar">
-        <el-col :span="3" :offset="21">
-          <p id="setting">{{ currentMinutes }} 分钟</p>
+        <el-col :span="5" :offset="19">
+          <p id="setting">定时 {{ currentMinutes }} 分钟</p>
         </el-col>
       </el-row>
 
