@@ -17,7 +17,7 @@ const config = {
     },
     output: {
         path: path.join(rootDir, 'dist'),
-        filename: isProduction ? 'js/[name].[hash].js' : 'js/[name].js',
+        filename: isProduction ? 'js/[name].[hash:7].js' : 'js/[name].js',
         publicPath: '/'
     },
     module: {
