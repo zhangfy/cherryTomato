@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./config/webpack.prod.conf.js --progress",
-    "dev": "webpack --config ./config/webpack.dev.conf.js --progress"
+    "dev": "webpack --config ./config/webpack.dev.conf.js --progress",
+    "watch": "webpack --config ./config/webpack.dev.conf.js --watch --progress"
   },
   "devDependencies": {
     "babel-loader": "^7.1.4",

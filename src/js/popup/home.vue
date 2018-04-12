@@ -6,15 +6,21 @@
         </el-col>
       </el-row>
 
-      <el-row id="body">
+      <div id="body">
+      <el-row>
         <el-col :span="8" :offset="8">
-          <!-- <div id="clock"></div> -->
-          <canvas id="clock" width="100%" height="100%"></canvas>
-
+          <p style="font-size: 52px;">{{ timeLeft }}</p>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4" :offset="8" style="text-align: center;">
           <el-button type="success" icon="el-icon-caret-right" size="small" @click="onHandler" circle></el-button>
+        </el-col>
+        <el-col :span="4" style="text-align: center;">
           <el-button type="danger" icon="el-icon-circle-close" size="small" @click="offHandler" circle></el-button>
         </el-col>
       </el-row>
+      </div>
 
       <el-row id="footer">
         <!-- options.html -->
@@ -70,6 +76,7 @@ export default {
   data() {
     return {
       currentMinutes: 1,
+      timeLeft: '--:--',
     }
   },
 
@@ -93,8 +100,26 @@ export default {
       // });
     },
 
+    formatSeconds (t) {
+      let sec = t % 60
+      return (t-sec)/60 + ':' + sec
+    },
+
+    onMessage () {
+      let self = this
+      chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+          switch (req.query) {
+              case 'tick_left':
+                  self.timeLeft = self.formatSeconds(req.minutes)
+                  break
+          }
+        }
+      );
+    },
+
     init () {
-      this.drawCircle()
+      // this.drawCircle()
+      this.onMessage()
       chrome.storage.sync.get('minutes', data => this.currentMinutes = data.minutes)
     },
 

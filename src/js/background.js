@@ -65,6 +65,7 @@ function startTick(minutes) {
             return
         }
         getColor((color) => {
+            chrome.runtime.sendMessage({query: 'tick_left', minutes: total-count})
             drawCircle(count / total, color)
         })
     }, 1000, minutes * 60)
@@ -99,7 +100,6 @@ chrome.runtime.onInstalled.addListener(function () {
     chrome.storage.sync.set({color: defaultColor, minutes: defaultMinutes}, function () {
         console.log('Set default color %c' + defaultColor, 'color:'+defaultColor);
         console.log('set minutes to ' + defaultMinutes)
-
         // chrome.browserAction.setBadgeBackgroundColor({color: defaultColor});
         // chrome.browserAction.setBadgeText({text: 'D'});
     });
@@ -116,13 +116,18 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       'from a content script:' + sender.tab.url :
       'from the extension');
 
-    if (req.query == 'tick') {
-        startTick(req.minutes)
-    } else if (req.query == 'tick_stop') {
-        stopAlarm()
-    } else if (req.query == 'color') {
-        getColor((color) => sendResponse({color: color}))
-        return true
+    switch (req.query) {
+        case 'tick':
+            startTick(req.minutes)
+            break
+
+        case 'tick_stop':
+            stopAlarm()
+            break
+
+        case 'color':
+            getColor((color) => sendResponse({ color: color }))
+            return true
     }
   }
 );
