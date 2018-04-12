@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <section>
     <div>
       <el-row>
@@ -26,11 +25,15 @@
       </el-row>
     </div>
 
-    <div>
+  <div>
+      <h1>Root page</h1>
+      <p>
+          <router-link :to="{name: 'home'}">Home</router-link>
+          <router-link :to="{name: 'setting'}">Setting</router-link>
+      </p>
 
-
-
-    </div>
+      <router-view></router-view>
+  </div>
   </section>
 </template>
 
@@ -46,19 +49,6 @@ section {
 
 </style>
 
-=======
-  <div>
-      <h1>Root page</h1>
-      <p>
-          <router-link :to="{name: 'home'}">Home</router-link>
-          <router-link :to="{name: 'setting'}">Setting</router-link>
-      </p>
-
-      <router-view></router-view>
-  </div>
-</template>
-
->>>>>>> 36c7b6b62e87238749090026ec064d98e3aa7ecc
 <script>
 export default {
   data () {
