@@ -1,16 +1,35 @@
 <template>
   <section>
-    <h1>This is powered by vue & vue-loader! Bravo~~ </h1>
     <div>
-        <p id="setting">{{ currentMinutes }} 分钟</p>
+      <el-row>
+          <el-col :span="24">
+            <div class="grid-content bg-purple-dark">
+              <!-- <div> -->
+                <!-- <span class="dashboard-clock">24:59</span> -->
+              <!-- </div> -->
+            
+
+              <el-row>
+                <el-button type="success" icon="el-icon-play" @click="onHandler">开始</el-button>
+                <el-button type="danger" icon="el-icon-stop" @click="offHandler">终止</el-button>
+              </el-row>
+            </div>
+          </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <div class="grid-content bg-purple-dark">
+            <a href="/pages/options.html" target="_blank" role="button">选项</a>
+          </div>
+        </el-col>
+      </el-row>
     </div>
 
-    <el-row>
-      <el-button type="success" icon="el-icon-play" @click="onHandler">开始</el-button>
-      <el-button type="danger" icon="el-icon-stop" @click="offHandler">终止</el-button>
-    </el-row>
+    <div>
 
-    <a href="/pages/options.html" target="_blank" role="button">选项</a>
+
+
+    </div>
   </section>
 </template>
 
@@ -18,6 +37,12 @@
 section {
   width: 400px;
 }
+
+.dashboard-clock {
+  font-size: 20px
+}
+
+
 </style>
 
 <script>
