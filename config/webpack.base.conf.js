@@ -56,7 +56,7 @@ const config = {
             {
                 test: /\.(scss|sass)$/,
                 use: [
-                    {loader: 'style-loader', options: {indentedSyntax: true}},
+                    {loader: 'sass-loader', options: {indentedSyntax: true}},
                 ],
             },
             {
