@@ -1,40 +1,39 @@
 <template>
-  <div>
-      <el-row id="header" class="bar">
-        <el-col :span="5" :offset="19">
-          <p id="setting">定时 {{ currentMinutes }} 分钟</p>
-        </el-col>
-      </el-row>
+  <div class="row">
+    <!-- Header -->
+    <div class="col s3 offset-s9">
+      <p id="setting">定时 {{ currentMinutes }} 分钟</p>
+    </div>
 
-      <div id="body">
-      <el-row>
-        <el-col :span="8" :offset="8">
-          <p style="font-size: 52px; text-align: center; margin-bottom: 20px;">{{ timeLeft }}</p>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col v-if="timeLeft === '--:--'" :span="4" :offset="10" style="text-align: center;">
-          <el-button type="success" icon="el-icon-caret-right" size="medium" @click="onHandler" circle></el-button>
-        </el-col>
-        <el-col v-else :span="4" :offset="10" style="text-align: center;">
-          <el-button type="danger" icon="el-icon-circle-close" size="medium" @click="offHandler" circle></el-button>
-        </el-col>
-      </el-row>
-      </div>
+    <!-- Body -->
+    <div class="col s12">
+      <p style="font-size: 52px; text-align: center; margin-bottom: 20px;">{{ timeLeft }}</p>
+    </div>
 
-      <el-row id="footer">
-        <!-- options.html -->
-        <el-col :span="2" :offset="1">
-          <el-button plain icon="el-icon-setting" size="small" @click="openTab('/pages/options.html')">选项</el-button>
-        </el-col>
+    <div class="col s12" style="text-align: center;">
+      <a v-if="timeLeft === '--:--'" class="btn btn-floating btn-large waves-effect waves-light green" @click="onHandler">
+        <i class="material-icons">play_arrow</i>
+      </a>
+      <a v-else class="btn btn-floating btn-large waves-effect waves-light red" @click="offHandler">
+        <i class="material-icons">stop</i>
+      </a>
+    </div>
 
-        <!-- /setting -->
-        <el-col :span="2" :offset="16">
-            <router-link to="/setting">
-              <el-button plain icon="el-icon-more" size="small">设置</el-button>
-            </router-link>
-        </el-col>
-      </el-row>
+    <!-- Footer -->
+    <!-- options.html -->
+    <div class="col s4 offset-s1">
+      <a class="btn btn-small waves-effect waves-light blue darken-2" @click="openTab('/pages/options.html')">
+        <i class="material-icons left">settings</i>选项
+      </a>
+    </div>
+
+    <!-- /setting -->
+    <div class="col s4 offset-s3">
+      <router-link to="/setting" class="btn btn-small waves-effect waves-light blue darken-2">
+        <i class="material-icons left">edit</i>设置
+      </router-link>
+    </div>
+
   </div>
 </template>
 

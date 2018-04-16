@@ -30,7 +30,8 @@
     "zip-webpack-plugin": "^3.0.0"
   },
   "dependencies": {
-    "element-ui": "^2.3.3",
+    "material-design-icons": "^3.0.1",
+    "materialize-css": "^1.0.0-beta",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1"
   }

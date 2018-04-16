@@ -56,11 +56,13 @@ const config = {
             {
                 test: /\.(scss|sass)$/,
                 use: [
+                    // {loader: 'style-loader'},  // create style nodes from JS strings
+                    // {loader: 'css-loader'}, // translate CSS into CommonJS
                     {loader: 'sass-loader', options: {indentedSyntax: true}},
                 ],
             },
             {
-                test: /\.(woff2?|ttf|otf)(\?.*)?$/,
+                test: /\.(woff2?|ttf|otf|svg|eot)(\?.*)?$/,
                 use: [{
                     loader: 'url-loader',
                     options: {
