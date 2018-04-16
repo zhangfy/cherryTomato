@@ -5,6 +5,7 @@ let count = 0
 let defaultMinutes = 0.5
 const PI = Math.PI
 
+
 function drawBorder() {
     let middleX = canvas.width / 2
     let r = middleY = canvas.height / 2
@@ -39,7 +40,8 @@ function drawCircle(percent, color) {
 }
 
 let intervalId
-let bgMusic = undefined
+let bgMusic = false
+let playTick = false
 
 function playBgm() {
     bgMusic = new Audio('../sounds/rain_with_thunder.glue.ogg')
@@ -68,7 +70,7 @@ function startTick(minutes) {
             return
         }
 
-        if ((total - count) <= 10) {
+        if (playTick == true && (total - count) <= 10) {
             playMusic('../sounds/quick_ticking.ogg')
         }
 
@@ -111,8 +113,13 @@ chrome.runtime.onInstalled.addListener(function () {
     chrome.storage.sync.set({color: defaultColor, minutes: defaultMinutes}, function () {
         console.log('Set default color %c' + defaultColor, 'color:'+defaultColor);
         console.log('set minutes to ' + defaultMinutes)
-        // chrome.browserAction.setBadgeBackgroundColor({color: defaultColor});
-        // chrome.browserAction.setBadgeText({text: 'D'});
+    });
+
+    chrome.storage.sync.get('play_tick', function(resp) {
+        if (resp.play_tick !== undefined) {
+            playTick = resp.play_tick
+            console.log('load play_tick from storage finished.')
+        }
     });
 });
 
@@ -139,6 +146,12 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
         case 'color':
             getColor((color) => sendResponse({ color: color }))
             return true
+
+        case 'play_tick':
+            playTick = req.value
+            chrome.storage.sync.set({'play_tick': req.value})
+            console.log('play_tick is saved to:', playTick)
+            break
     }
   }
 );

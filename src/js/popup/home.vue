@@ -1,40 +1,45 @@
 <template>
-  <div class="row">
+<section>
     <!-- Header -->
-    <div class="col s3 offset-s9">
-      <p id="setting">定时 {{ currentMinutes }} 分钟</p>
+    <div class="row">
+      <div class="col 14 s3 offset-s9" style="font-size: 13px; line-height: 1.1em;">
+        <i class="material-icons">alarm</i> <span style="display: inline-block; padding: 5px 0;">{{ currentMinutes }}分钟</span>
+      </div>
     </div>
 
     <!-- Body -->
-    <div class="col s12">
-      <p style="font-size: 52px; text-align: center; margin-bottom: 20px;">{{ timeLeft }}</p>
-    </div>
+    <div class="row">
+      <div class="col s12">
+        <p style="font-size: 52px; text-align: center; margin: 0;">{{ timeLeft }}</p>
+      </div>
 
-    <div class="col s12" style="text-align: center;">
-      <a v-if="timeLeft === '--:--'" class="btn btn-floating btn-large waves-effect waves-light green" @click="onHandler">
-        <i class="material-icons">play_arrow</i>
-      </a>
-      <a v-else class="btn btn-floating btn-large waves-effect waves-light red" @click="offHandler">
-        <i class="material-icons">stop</i>
-      </a>
+      <div class="col s12" style="text-align: center;">
+        <a v-if="timeLeft === '--:--'" class="btn btn-floating btn-large waves-effect waves-light green" @click="onHandler">
+          <i class="material-icons">play_arrow</i>
+        </a>
+        <a v-else class="btn btn-floating btn-large waves-effect waves-light red" @click="offHandler">
+          <i class="material-icons">stop</i>
+        </a>
+      </div>
     </div>
 
     <!-- Footer -->
-    <!-- options.html -->
-    <div class="col s4 offset-s1">
-      <a class="btn btn-small waves-effect waves-light blue darken-2" @click="openTab('/pages/options.html')">
-        <i class="material-icons left">settings</i>选项
-      </a>
-    </div>
+    <div class="row" id="footer">
+      <!-- options.html -->
+      <div class="col s1">
+        <a class="waves-effect waves-teal btn-flat" @click="openTab('/pages/options.html')">
+          <i class="material-icons">settings</i>
+        </a>
+      </div>
 
-    <!-- /setting -->
-    <div class="col s4 offset-s3">
-      <router-link to="/setting" class="btn btn-small waves-effect waves-light blue darken-2">
-        <i class="material-icons left">edit</i>设置
-      </router-link>
+      <!-- /setting -->
+      <div class="col s4 offset-s7">
+        <router-link to="/setting" class="btn btn-small waves-effect waves-light blue darken-2">
+          <i class="material-icons left">edit</i>设置
+        </router-link>
+      </div>
     </div>
-
-  </div>
+</section>
 </template>
 
 <style>
@@ -60,14 +65,10 @@
   width: 100%;
 }
 
-#settingBtn {
-  font-size: 18px;
-  color: #777;
+.row:last-child {
+  margin-bottom: 0;
 }
 
-#settingBtn:hover {
-  color: red;
-}
 </style>
 
 <script>
@@ -147,15 +148,12 @@ export default {
       chrome.storage.sync.get('minutes', (resp) => {
         chrome.alarms.create('myAlarm', {delayInMinutes: resp.minutes})
         chrome.runtime.sendMessage({query: 'tick', minutes: resp.minutes})
-        // chrome.browserAction.setBadgeText({text: resp.minutes + 'm'})
-        // window.close();
         self.timeLeft = self.formatSeconds(resp.minutes * 60)
       })
     },
 
     offHandler () {
       chrome.runtime.sendMessage({query: 'tick_stop'})
-      // window.close();
       this.timeLeft = this.formatSeconds(0)
     },
 
@@ -163,7 +161,6 @@ export default {
 
   mounted() {
     this.init()
-    console.log('vue is mounted!')
   }
 
 }
