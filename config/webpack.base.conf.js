@@ -13,7 +13,6 @@ const config = {
     entry: {
         background: resolve('js/background.js'),
         popup: path.join(rootDir, 'src', 'js/popup'),
-        options: resolve('js/options.js'),
     },
     output: {
         path: path.join(rootDir, 'dist'),
@@ -39,13 +38,6 @@ const config = {
                 exclude: /node_modules/,
                 use: 'babel-loader'
             },
-            // {
-            //     test: /\.css$/,
-            //     use: [
-            //         {loader: 'style-loader'},
-            //         {loader: 'css-loader'},
-            //     ],
-            // },
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
@@ -54,13 +46,25 @@ const config = {
                 })
             },
             {
-                test: /\.(scss|sass)$/,
-                use: [
-                    // {loader: 'style-loader'},  // create style nodes from JS strings
-                    // {loader: 'css-loader'}, // translate CSS into CommonJS
-                    {loader: 'sass-loader', options: {indentedSyntax: true}},
-                ],
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    use: [{
+                        loader: 'css-loader'
+                    }, {
+                        loader: 'sass-loader'
+                    }],
+                    // use in dev mode
+                    fallback: 'style-loader'
+                })
             },
+            // {
+            //     test: /\.(scss|sass)$/,
+            //     use: [
+            //         {loader: 'style-loader'},  // create style nodes from JS strings
+            //         {loader: 'css-loader'}, // translate CSS into CommonJS
+            //         {loader: 'sass-loader'},
+            //     ],
+            // },
             {
                 test: /\.(woff2?|ttf|otf|svg|eot)(\?.*)?$/,
                 use: [{
@@ -92,7 +96,6 @@ const config = {
 
         htmlPage('background', ['background', 'runtime~background']),
         htmlPage('popup', ['popup', 'runtime~popup', 'vendors~popup']),
-        htmlPage('options', ['options', 'runtime~options']),
 
         new ExtractTextPlugin({filename: 'css/[name].[hash:7].css'}),
 

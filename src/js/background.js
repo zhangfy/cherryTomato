@@ -2,7 +2,7 @@ let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 let defaultColor = '#3aa757'
 let count = 0
-let defaultMinutes = 0.5
+let defaultMinutes = 1
 const PI = Math.PI
 
 
@@ -42,18 +42,33 @@ function drawCircle(percent, color) {
 let intervalId
 let bgMusic = false
 let playTick = false
+let playBGM = false
+let isTicking = false
 
 function playBgm() {
-    bgMusic = new Audio('../sounds/rain_with_thunder.glue.ogg')
-    bgMusic.loop = true
+    if (playBGM !== true) {
+        console.log('playBGM :', playBGM)
+        return
+    }
+
+    if (!bgMusic) {
+        bgMusic = new Audio('../sounds/sounds_of_frogs.glue.ogg')
+        bgMusic.loop = true
+    }
     bgMusic.play()
 }
 
 function stopBgm() {
+    console.log('stop bgm:', bgMusic != false)
     if (bgMusic) {
         bgMusic.pause()
         bgMusic.currentTime = 0
     }
+}
+
+function playMusic(src) {
+    let audio = new Audio(src)
+    audio.play()
 }
 
 function startTick(minutes) {
@@ -75,17 +90,11 @@ function startTick(minutes) {
         }
 
         getColor((color) => {
-            // chrome.runtime.sendMessage({query: 'tick_left', minutes: total-count})
             drawCircle(count / total, color)
         })
     }, 1000, minutes * 60)
 
-    // playBgm()
-}
-
-function playMusic(src) {
-    let audio = new Audio(src)
-    audio.play()
+    playBgm()
 }
 
 function stopAlarm() {
@@ -115,10 +124,15 @@ chrome.runtime.onInstalled.addListener(function () {
         console.log('set minutes to ' + defaultMinutes)
     });
 
-    chrome.storage.sync.get('play_tick', function(resp) {
+    chrome.storage.sync.get(['play_tick', 'play_bgm'], function(resp) {
         if (resp.play_tick !== undefined) {
             playTick = resp.play_tick
-            console.log('load play_tick from storage finished.')
+            console.log('load play_tick from storage finished:', resp.play_tick)
+        }
+
+        if (resp.play_bgm !== undefined) {
+            playBGM = resp.play_bgm
+            console.log('load play_bgm from storage finished:', resp.play_bgm)
         }
     });
 });
@@ -127,6 +141,10 @@ const getColor = (cb) => {
     chrome.storage.sync.get('color', (resp) => {
         cb(resp.color)
     })
+}
+
+const setTickMinutes = (minutes) => {
+    chrome.storage.sync.set({'minutes': minutes})
 }
 
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
@@ -151,6 +169,21 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
             playTick = req.value
             chrome.storage.sync.set({'play_tick': req.value})
             console.log('play_tick is saved to:', playTick)
+            break
+
+        case 'play_bgm':
+            playBGM = req.value
+            chrome.storage.sync.set({'play_bgm': req.value})
+            console.log('play_bgm is saved to:', playBGM)
+            if (req.value == false) {
+                stopBgm()
+            } else {
+                playBgm()
+            }
+            break
+
+        case 'set_minutes':
+            setTickMinutes(req.value)
             break
     }
   }

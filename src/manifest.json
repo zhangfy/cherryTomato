@@ -10,7 +10,6 @@
     "alarms",
     "tabs"
   ],
-  "options_page": "pages/options.html",
   "background": {
     "page": "pages/background.html",
     "persistent": false

@@ -14,10 +14,10 @@
       </div>
 
       <div class="col s12" style="text-align: center;">
-        <a v-if="timeLeft === '--:--'" class="btn btn-floating btn-large waves-effect waves-light green" @click="onHandler">
+        <a v-if="timeLeft === '--:--'" class="btn-large btn-floating waves-effect green lighten-1" @click="onHandler">
           <i class="material-icons">play_arrow</i>
         </a>
-        <a v-else class="btn btn-floating btn-large waves-effect waves-light red" @click="offHandler">
+        <a v-else class="btn-large btn-floating waves-effect red darken-2" @click="offHandler">
           <i class="material-icons">stop</i>
         </a>
       </div>
@@ -25,17 +25,10 @@
 
     <!-- Footer -->
     <div class="row" id="footer">
-      <!-- options.html -->
-      <div class="col s1">
-        <a class="waves-effect waves-teal btn-flat" @click="openTab('/pages/options.html')">
-          <i class="material-icons">settings</i>
-        </a>
-      </div>
-
       <!-- /setting -->
-      <div class="col s4 offset-s7">
-        <router-link to="/setting" class="btn btn-small waves-effect waves-light blue darken-2">
-          <i class="material-icons left">edit</i>设置
+      <div class="col s1">
+        <router-link to="/setting" class="btn-flat waves-effect waves-teal">
+          <i class="material-icons">settings</i>
         </router-link>
       </div>
     </div>

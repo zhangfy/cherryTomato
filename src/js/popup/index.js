@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Material from 'materialize-css' // Components
-// import 'materialize-css/sass/materialize.scss'
-import 'materialize-css/dist/css/materialize.css' // CSS
 import 'material-design-icons/iconfont/material-icons.css' // Icons
+
+import Material from 'materialize-css' // Components
+import 'materialize-css/dist/css/materialize.css' // Components' CSS
 
 import root from './root'
 import home from './home'
