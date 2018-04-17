@@ -46,7 +46,7 @@ let playBGM = false
 let isTicking = false
 
 function playBgm() {
-    if (playBGM !== true) {
+    if (playBGM !== true || isTicking == false) {
         console.log('playBGM :', playBGM)
         return
     }
@@ -98,6 +98,7 @@ function startTick(minutes) {
 }
 
 function stopAlarm() {
+    isTicking = false
     stopBgm()
 
     // reset clock
@@ -155,10 +156,12 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     switch (req.query) {
         case 'tick':
             startTick(req.minutes)
+            isTicking = true
             break
 
         case 'tick_stop':
             stopAlarm()
+            isTicking = false
             break
 
         case 'color':
