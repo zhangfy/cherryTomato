@@ -139,7 +139,7 @@ export default {
       let self = this
 
       chrome.storage.sync.get('minutes', (resp) => {
-        chrome.alarms.create('myAlarm', {delayInMinutes: resp.minutes})
+        chrome.alarms.create('myAlarm', {delayInMinutes: parseFloat(resp.minutes)})
         chrome.runtime.sendMessage({query: 'tick', minutes: resp.minutes})
         self.timeLeft = self.formatSeconds(resp.minutes * 60)
       })

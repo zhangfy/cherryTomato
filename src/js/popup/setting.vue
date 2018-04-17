@@ -22,16 +22,19 @@
         <span>播放背景音乐</span>
       </label>
     </li>
+
+    <li class="col s6">
+      <label>周期</label>
+      <select class="browser-default" v-model="selectedClock" @change="changeClock">
+        <option value=1>1分钟</option>
+        <option value=5>5分钟</option>
+        <option value=15>15分钟</option>
+      </select>
+    </li>
   </ul>
 
 </section>
 </template>
-
-<style>
-li {
-  padding: 10px 0;
-}
-</style>
 
 <script>
 export default {
@@ -39,6 +42,7 @@ export default {
     return {
       playBGM: false,
       playTick: false,
+      selectedClock: null,
     }
   },
 
@@ -51,15 +55,21 @@ export default {
     changeBGM () {
       chrome.runtime.sendMessage({query: 'play_bgm', value: this.playBGM})
       console.log('bgm is switch to ', this.playBGM)
+    },
+
+    changeClock () {
+      chrome.runtime.sendMessage({query: 'set_minutes', value: this.selectedClock})
+      console.log('clock is switch to ', this.selectedClock)
     }
   },
 
   mounted() {
     let self = this
-    chrome.storage.sync.get(['play_tick', 'play_bgm'], function(resp) {
+    chrome.storage.sync.get(['play_tick', 'play_bgm', 'minutes'], function(resp) {
       self.playTick = resp.play_tick
       self.playBGM = resp.play_bgm
-      console.log('loaded from storage, play_tick: ', self.playTick, ', play_bgm:', playBGM)
+      self.selectedClock = resp.minutes
+      console.log('loaded from storage, play_tick: ', self.playTick, ', play_bgm:', self.playBGM)
     });
   }
 }
