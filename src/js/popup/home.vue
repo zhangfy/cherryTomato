@@ -118,7 +118,6 @@ export default {
           switch (req.query) {
               case 'tick_left':
                   self.timeLeft = self.formatSeconds(req.minutes)
-                  console.log('timeLeft:', self.timeLeft)
                   break
           }
         }
@@ -152,7 +151,7 @@ export default {
 
   },
 
-  mounted() {
+  beforeMount() {
     this.init()
   }
 
