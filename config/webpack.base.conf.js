@@ -4,6 +4,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+// Create multiple instances
+const extractCSS = new ExtractTextPlugin('css/[name].[sha1:contenthash:7]-1.css')
+const extractSASS = new ExtractTextPlugin('css/[name].[sha1:contenthash:7]-2.css')
+
 const { rootDir, resolve, htmlPage } = require('./tools')
 
 const isProduction = process.env.NODE_ENV == 'production'
@@ -40,31 +44,23 @@ const config = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'css-loader'
-                })
-            },
-            {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: 'css-loader'
-                    }, {
-                        loader: 'sass-loader'
-                    }],
-                    // use in dev mode
+                use: extractCSS.extract({
+                    use: [{ loader: 'css-loader', options: {minimize: isProduction} }],
                     fallback: 'style-loader'
                 })
             },
-            // {
-            //     test: /\.(scss|sass)$/,
-            //     use: [
-            //         {loader: 'style-loader'},  // create style nodes from JS strings
-            //         {loader: 'css-loader'}, // translate CSS into CommonJS
-            //         {loader: 'sass-loader'},
-            //     ],
-            // },
+            {
+                test: /\.(scss|sass)$/,
+                use: extractSASS.extract({
+                    use: [{
+                        // translate CSS into CommonJS
+                        loader: 'css-loader', options: {minimize: isProduction}
+                    }, {
+                        loader: 'sass-loader' // Compiles Sass to CSS
+                    }],
+                    fallback: 'style-loader'
+                })
+            },
             {
                 test: /\.(woff2?|ttf|otf|svg|eot)(\?.*)?$/,
                 use: [{
@@ -85,19 +81,20 @@ const config = {
         }
     },
     optimization: {
+        // minimize JS
         splitChunks: {
             chunks: 'all',
         },
         runtimeChunk: true
     },
     plugins: [
-        new CleanWebpackPlugin(['*'], {root: path.join(rootDir, 'dist')}),
+        new CleanWebpackPlugin(['*.zip', 'dist'], {root: rootDir}),
         new webpack.HashedModuleIdsPlugin(),
 
         htmlPage('background', ['background', 'runtime~background']),
         htmlPage('popup', ['popup', 'runtime~popup', 'vendors~popup']),
 
-        new ExtractTextPlugin({filename: 'css/[name].[hash:7].css'}),
+        extractCSS, extractSASS,
 
         new CopyWebpackPlugin([
             {from: resolve('sounds'), to: path.join(rootDir, 'dist/sounds')},

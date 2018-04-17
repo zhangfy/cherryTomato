@@ -4,7 +4,8 @@ import VueRouter from 'vue-router'
 import 'material-design-icons/iconfont/material-icons.css' // Icons
 
 import Material from 'materialize-css' // Components
-import 'materialize-css/dist/css/materialize.css' // Components' CSS
+import 'materialize-css/dist/css/materialize.min.css' // Components' CSS
+// import 'materialize-css/sass/materialize.scss' // Components' SCSS
 
 import root from './root'
 import home from './home'
