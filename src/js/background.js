@@ -155,13 +155,13 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 
     switch (req.query) {
         case 'tick':
-            startTick(req.minutes)
             isTicking = true
+            startTick(req.minutes)
             break
 
         case 'tick_stop':
-            stopAlarm()
             isTicking = false
+            stopAlarm()
             break
 
         case 'color':
