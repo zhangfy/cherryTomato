@@ -5,7 +5,8 @@ super fancy chrome extension to clock your daily life.
 番茄时钟插件
 
 <p align="center">
-  <img src="./docs/img/home.png" width="500px" />
+  <img src="./docs/img/cheery.png" width="300px" />
+  <img src="./docs/img/settings.png" width="300px" />
 </p>
 
 ## 构建
